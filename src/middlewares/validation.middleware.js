@@ -1,10 +1,12 @@
 const validateRegister = (req, res, next) => {
   const { name, email, username, password } = req.body;
 
-  if (!name || !email || !username || !password) {
+  if (!name || !email || !username || !password || 
+      typeof name !== 'string' || typeof email !== 'string' || 
+      typeof username !== 'string' || typeof password !== 'string') {
     return res.status(400).json({
-      error: 'Datos incompletos',
-      message: 'Nombre, correo, usuario y contrasena son requeridos'
+      error: 'Datos invalidos',
+      message: 'Nombre, correo, usuario y contrasena son requeridos y deben ser texto'
     });
   }
 
@@ -43,20 +45,12 @@ const validateRegister = (req, res, next) => {
 };
 
 const validateLogin = (req, res, next) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({
-      error: 'Datos incompletos',
-      message: 'Correo y contrasena son requeridos'
-    });
-  }
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
+  if (!username || !password || typeof username !== 'string' || typeof password !== 'string') {
     return res.status(400).json({
       error: 'Datos invalidos',
-      message: 'El correo no tiene un formato valido'
+      message: 'Usuario y contraseña son requeridos y deben ser texto'
     });
   }
 
@@ -66,10 +60,10 @@ const validateLogin = (req, res, next) => {
 const validateChangePassword = (req, res, next) => {
   const { current_password, new_password } = req.body;
 
-  if (!current_password || !new_password) {
+  if (!current_password || !new_password || typeof current_password !== 'string' || typeof new_password !== 'string') {
     return res.status(400).json({
-      error: 'Datos incompletos',
-      message: 'La contrasena actual y la nueva son requeridas'
+      error: 'Datos invalidos',
+      message: 'La contrasena actual y la nueva son requeridas y deben ser texto'
     });
   }
 
@@ -93,10 +87,10 @@ const validateChangePassword = (req, res, next) => {
 const validateComment = (req, res, next) => {
   const { content } = req.body;
 
-  if (!content) {
+  if (!content || typeof content !== 'string') {
     return res.status(400).json({
-      error: 'Datos incompletos',
-      message: 'El contenido del comentario es requerido'
+      error: 'Datos invalidos',
+      message: 'El contenido del comentario es requerido y debe ser texto'
     });
   }
 

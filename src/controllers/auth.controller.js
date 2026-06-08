@@ -5,7 +5,12 @@ const prisma = require('../config/database');
 const register = async (req, res) => {
   try {
     const { name, email, username, password } = req.body;
-    const profile_picture = req.body.profile_picture || null;
+    // Si se subio una imagen la convertimos a base64 para guardarla
+    let profile_picture = null;
+    if (req.file) {
+      const base64 = req.file.buffer.toString('base64');
+      profile_picture = `data:${req.file.mimetype};base64,${base64}`;
+    }
 
     const existingEmail = await prisma.user.findUnique({
       where: { email: email.toLowerCase().trim() }
@@ -60,10 +65,10 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     const user = await prisma.user.findUnique({
-      where: { email: email.toLowerCase().trim() }
+      where: { username: username.toLowerCase().trim() }
     });
 
     // Mismo mensaje para no revelar si el usuario existe
