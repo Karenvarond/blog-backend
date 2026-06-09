@@ -16,7 +16,30 @@ API RESTful desarrollada con Node.js y Express que implementa autenticación de 
 ## Requisitos previos
 
 - Node.js v18 o superior
-- PostgreSQL v14 o superior instalado y corriendo en el puerto 5432
+- PostgreSQL v14 o superior
+
+> **Importante:** PostgreSQL debe estar instalado y corriendo en el puerto 5432 antes de ejecutar el proyecto. Si no cuenta con él, puede descargarlo desde https://www.postgresql.org/download/ — durante la instalación, establezca una contraseña para el usuario `postgres` y mantenga el puerto en 5432.
+
+## Iniciar PostgreSQL
+
+Antes de correr el proyecto, asegúrese de que PostgreSQL esté en ejecución:
+
+**Windows:**
+```bash
+pg_ctl start -D "C:\Program Files\PostgreSQL\17\data"
+```
+
+**Mac:**
+```bash
+brew services start postgresql
+```
+
+**Linux:**
+```bash
+sudo service postgresql start
+```
+
+Cuando PostgreSQL esté ejecutándose correctamente, podrá continuar con la instalación.
 
 ## Construcción e instalación
 
@@ -43,6 +66,8 @@ DATABASE_URL="postgresql://postgres:TU_CONTRASEÑA@localhost:5432/blog_db?schema
 FRONTEND_URL=http://localhost:5173
 ```
 
+> Reemplace `TU_CONTRASEÑA` con la contraseña establecida al instalar PostgreSQL.
+
 4. Aplica las migraciones de base de datos:
 
 ```bash
@@ -68,6 +93,13 @@ npm run dev
 ```
 
 El servidor estará disponible en `http://localhost:3000`
+
+Cuando el servidor inicie correctamente, se mostrará el siguiente mensaje en la terminal:
+
+```
+Servidor corriendo en puerto 3000
+Conexion a PostgreSQL establecida correctamente
+```
 
 ## Endpoints de la API
 
@@ -136,11 +168,10 @@ Authorization: Bearer <tu_token>
 
 ## Git Flow
 
-Este proyecto sigue la metodología Git Flow:
+Para este proyecto se establecieron las bases de la metodología Git Flow, utilizando ramas principales para separar los entornos:
 
 - `main` — código estable listo para producción
 - `develop` — rama de integración de desarrollo
-- `feature/*` — ramas para cada funcionalidad
 
 Para ver el historial de commits:
 
